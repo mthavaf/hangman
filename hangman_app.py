@@ -1,6 +1,13 @@
 from tkinter import *
 import pymysql
+import configparser
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+host = config['MySQL']['host']
+username = config['MySQL']['username']
+password = config['MySQL']['password']
+database = config['MySQL']['database']
 
 def main(char, wrongAttempts, array, data, guessedWord, level):
     w.delete(ALL)
@@ -34,7 +41,7 @@ def main(char, wrongAttempts, array, data, guessedWord, level):
             w.create_line(150, 400, 175, 450, fill="#000000", width=4)
             w.create_line(150, 400, 125, 450, fill="#000000", width=4)
         if(array[1]):
-            img = PhotoImage(file="sadface.png")
+            img = PhotoImage(file="resources/sadface.png")
             w.create_image(268, 192, anchor=NW, image=img)
         if(array[2]):
             w.create_line(300, 250, 300, 350, fill="#000000", width=4)
@@ -64,8 +71,8 @@ def main(char, wrongAttempts, array, data, guessedWord, level):
 
 
 def init(master, w, level):
-    conn = pymysql.connect(host="localhost", user="root",
-                           passwd="ashwini123", db="hangman")
+    conn = pymysql.connect(host=host, user=username,
+                           passwd=password, db=database)
     cur = conn.cursor()
     if level == 1:
         cur.execute("SELECT word FROM easy ORDER BY RAND() LIMIT 1")
