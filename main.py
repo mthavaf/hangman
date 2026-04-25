@@ -5,23 +5,38 @@ import sys
 from theme import Colors, UI
 
 # Initialize Pygame
+print("--- Hangman Debug Info ---")
+print("Initializing Pygame...")
 pygame.init()
 
 class HangmanGame:
     def __init__(self):
+        print("Setting up display...")
+        # Add some flags for better compatibility
         self.screen = pygame.display.set_mode((UI.WIDTH, UI.HEIGHT))
         pygame.display.set_caption("Neo-Hangman")
-        self.clock = pygame.time.Clock()
+        
+        print("Loading words.json...")
         self.load_words()
         
         # Game State
         self.state = "MENU" # MENU, PLAYING
         self.reset_game()
-        self.font_large = pygame.font.SysFont("Verdana", 60, bold=True)
-        self.font_medium = pygame.font.SysFont("Arial", 32)
-        self.font_small = pygame.font.SysFont("Arial", 20)
         
+        print("Initializing fonts...")
+        try:
+            self.font_large = pygame.font.SysFont("Verdana", 60, bold=True)
+            self.font_medium = pygame.font.SysFont("Arial", 32)
+            self.font_small = pygame.font.SysFont("Arial", 20)
+        except:
+            print("Warning: Preferred fonts not found, using defaults.")
+            self.font_large = pygame.font.SysFont(None, 60)
+            self.font_medium = pygame.font.SysFont(None, 32)
+            self.font_small = pygame.font.SysFont(None, 20)
+        
+        self.clock = pygame.time.Clock()
         self.running = True
+        print("Game setup complete. Starting main loop.")
 
     def load_words(self):
         try:
